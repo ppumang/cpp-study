@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "vector": "cpp",
+        "iosfwd": "cpp",
+        "iterator": "cpp",
+        "ostream": "cpp",
+        "cstring": "cpp",
+        "locale": "cpp",
+        "string": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "Enabled",
+    "editor.accessibilityPageSize": 12,
+    "C_Cpp.intelliSenseEngineFallback": "Enabled"
+}
