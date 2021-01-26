@@ -1,91 +1,81 @@
 #include <string.h>
 #include <iostream>
 
-class String {
-    char* str;
-    int len;
+class MyString {
+    char* string_content;
+    int string_length;
 
     public:
-        String(char c, int n);
-        String(const char* s);
-        String(const String& s);
-        ~String();
+        MyString(char c);
+        MyString(const char* str);
+        MyString(const MyString& str);
+        ~MyString();
 
-        void add_string(const String& s);
-        void copy_string(const String& s);
-        void show_string();
-        int strlen();
+        int length() const;
+        void print() const;
+        void println() const;
+
+        MyString& assign(const MyString& str);
+        MyString& assign(const char* str);
 };
 
-String::String(char c, int n){
-    str = new char[n+1];
-    len = n;
-    for (int i = 0; i<n; i++) {
-        str[i] = c;
-    }
+MyString::MyString(char c) {
+    string_content = new char[1];
+    string_content[0] = c;
+    string_length = 1;
 }
-String::String(const char* s) {
-    len = 0;
-    while(1) {
-        if (!s[len]){
-            break;
-        }
-        len++;
-    }
-    str = new char[len + 1];
-    strcpy(str, s);
-}
-String::String(const String& s) {
-    len = s.len;
-    str = new char[len + 1];
-    strcpy(str, s.str);
-}
-String::~String() {
-    std::cout << "destructor : " << str << std::endl;
-    if (str) {
-        std::cout << "deleting" << std::endl;
-        delete[] str;
-    }
-}
+MyString::MyString(const char* str) {
+    string_length = strlen(str);
+    string_content = new char[string_length];
 
-int String::strlen() {
-    return len;
+    for (int i = 0; i != string_length; i++) {string_content[i] = str[i];}
 }
-void String::add_string(const String& s) {
-    char* str2 = new char[len + s.len + 1];
-    for (int i = 0; i< len; i++) {
-        str2[i] = str[i];
-        str2[len + i] = s.str[i];
+MyString::MyString(const MyString& str) {
+    string_length = str.string_length;
+    string_content = new char[string_length];
+    for (int i = 0; i != string_length; i++) string_content[i] = str.string_content[i];
+}
+MyString::~MyString() {delete[] string_content;}
+int MyString::length() const {return string_length;}
+
+void MyString::print() const {
+    for (int i = 0; i != string_length; i++) std::cout << string_content[i];
+}
+void MyString::println() const {
+    for (int i = 0; i != string_length; i++) std::cout << string_content[i];
+    std::cout << std::endl;
+}
+MyString& MyString::assign(const char* str) {
+    string_length = strlen(str);
+    if (string_length > string_length) {
+        delete[] string_content;
+
+        string_content = new char[string_length];
     }
-    str = str2;
-    len += s.len;
+    for (int i = 0; i != string_length; i++) {
+        string_content[i] = str[i];
+    }
+
+    return *this;
 }
-void String::copy_string(const String& s) {
-    str = s.str;
-    len = s.len;
-}
-void String::show_string() {
-    std::cout << str << std::endl;
-    std::cout << len << std::endl;
+MyString& MyString::assign(const MyString& str) {
+    if (str.string_length > string_length) {
+        delete[] string_content;
+
+        string_content = new char[str.string_length];
+    }
+    for (int i = 0; i != str.string_length; i++) {
+        string_content[i] = str.string_content[i];
+    }
+    string_length = str.string_length;
+
+    return *this;
 }
 
 int main() {
-    String str1('c',5);
-    str1.show_string();
+    MyString str1("hello world");
+    MyString str2(str1);
 
-    String str2("abcd");
-    str2.show_string();
-
-    String str3(str2);
-    str3.show_string();
-
-    std::cout << "*** adding str2 to str1 ***" << std::endl;
-    str1.add_string(str2);
-    str1.show_string();
-
-    std::cout << "*** copying str1 to str2" << std::endl;
-    str2.copy_string(str1);
-    str2.show_string();
-
-    return 0;
+    str1.println();
+    str2.println();
 }

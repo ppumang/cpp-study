@@ -18,7 +18,7 @@ class Marine {
         Marine(int x, int y, int default_damage);
         ~Marine();
 
-        int attack();
+        int attack() const;
         Marine& be_attacked(int damage_earn);
         void move(int x, int y);
         void show_status();
@@ -58,7 +58,7 @@ void Marine::move(int x, int y) {
     coord_x = x;
     coord_y = y;
 }
-int Marine::attack() {return damage;}
+int Marine::attack() const {return damage;}
 Marine& Marine::be_attacked(int damage_earn) {
     hp -= damage_earn;
     if(hp <= 0) is_dead = true;
